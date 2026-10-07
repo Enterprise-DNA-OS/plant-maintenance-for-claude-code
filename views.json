@@ -1,13 +1,39 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Plant Maintenance for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Maintenance week",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Open work",
+        "sql": "select code,asset,title,status,due_date,assigned_to from backlog order by due_date"
+      },
+      {
+        "title": "Preventive work",
+        "sql": "select asset,name,next_due,next_meter,reading from pm_due order by next_due"
+      },
+      {
+        "title": "Parts to review",
+        "sql": "select code,name,quantity,reorder_level from stock_attention order by code"
+      }
+    ]
+  },
+  {
+    "name": "reliability",
+    "title": "Plant reliability",
+    "sections": [
+      {
+        "title": "Recorded downtime and labour",
+        "sql": "select code,name,site,corrective_jobs,downtime_minutes,labour_minutes,open_jobs from asset_reliability order by downtime_minutes desc"
+      }
+    ]
+  },
+  {
+    "name": "inspection-review",
+    "title": "Inspection evidence",
+    "sections": [
+      {
+        "title": "Latest inspection per asset",
+        "sql": "select code,name,next_due,result,evidence_ref,competency_ref from inspection_status order by code"
       }
     ]
   }

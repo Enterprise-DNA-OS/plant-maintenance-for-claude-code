@@ -1,115 +1,121 @@
-<h1 align="center">Plant Maintenance for Claude Code</h1>
+# Plant Maintenance for Claude Code
 
-<p align="center">
-  <strong>The open-source plant and asset maintenance system that is just a database and Claude Code.</strong>
-</p>
+Assets, preventive schedules, work orders, meters, spares and inspection evidence in a database you own. Free MIT-licensed software for plant maintenance planners. Works with Claude Code, Codex, OpenCode or Cursor.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free. Install, try the demo and import the asset register. | Your fields, site rules, MEX records, web front end or different stack. | Installed, connected and operated through Omni by Enterprise DNA. One setup fee, then a retainer. |
+| [Quick start](#quick-start) | [Get your version built](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=mex&utm_source=github&utm_medium=customise) | [Book a call](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=mex&utm_source=github&utm_medium=managed) |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your MEX data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=mex">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/mex?utm_source=github&utm_medium=readme&utm_campaign=mex">How it works</a></td>
-  </tr>
-</table>
+## The maintenance week
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-mex">Instead of MEX</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Plant Maintenance for Claude Code does the job you pay MEX for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the MEX dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays MEX per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=mex).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+Review preventive work, allocate the repair backlog, record inspections and meter readings, replenish stores and prepare the Monday work pack. Fictional Northbank Packaging has an overdue conveyor repair waiting for parts, a compressor over its hour threshold, a late inspection and missing registration evidence. Demo dates are relative to the first seed. Reseeding does not reset records.
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20 or later, Windows or Linux:
 
-```bash
+~~~bash
 git clone https://github.com/Enterprise-DNA-OS/plant-maintenance-for-claude-code.git
 cd plant-maintenance-for-claude-code
 npm install
 npm run demo
-```
+npm test
+npm run view
+npm run docs
+~~~
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+PGlite stores a local Postgres-compatible database in .data/db. DATABASE_URL selects hosted Postgres with verified TLS. Real data belongs in a fresh DATA_DIR after npm run migrate, without demo seed. Local PGlite is single-process. Shared use needs restricted database credentials, backups and a restore drill. The database owner controls access; no public service is exposed.
 
-### Use it with your own Postgres or Supabase
+## Commands
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+41 executable commands including help; 42 slash recipes including customise and new-view:
 
-## The commands
+- /assets
+- /work-orders
+- /pm-due
+- /maintenance-round
+- /stores
+- /spares
+- /meters
+- /inspections
+- /schedules
+- /purchase-requests
+- /reliability
+- /attention
+- /critical-backlog
+- /stale-work
+- /parts-wait
+- /crew-load
+- /site-review
+- /cost-review
+- /history
+- /audit
+- /activity
+- /asset
+- /compliance
+- /weekly-review
+- /add
+- /assign
+- /set-status
+- /complete
+- /generate-pm
+- /meter
+- /inspect
+- /stock
+- /issue
+- /request-parts
+- /receive
+- /log
+- /draft-work-order
+- /draft-reorder
+- /import
+- /export
+- /customise
+- /new-view
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+[CLI guide](docs/cli.md): arguments, calculations and examples. Human output by default; --json for tools. UUID prefixes and case-insensitive names work, with candidate lists and exit 1 on ambiguous matches.
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+## Ten questions beyond a fixed dashboard
 
-## Instead of mex
+These queries run today and can be changed to fit your business. MEX also offers reporting and configurable dashboards. We do not claim these questions are impossible in MEX.
 
-<!-- TODO(author): how to bring data across from MEX; link docs/replace-mex.md -->
+- Which critical assets have overdue work? `critical-backlog`
+- Which maintenance plans are due by date or meter? `pm-due`
+- Which jobs have been untouched for two weeks? `stale-work`
+- Which repairs are waiting for parts? `parts-wait`
+- Which stores items are at or below their reorder point? `stores`
+- Who has the largest open maintenance workload? `crew-load`
+- Which sites have the most overdue jobs? `site-review`
+- Which assets have the most recorded downtime? `reliability`
+- Which assets consumed parts, separated by currency? `cost-review`
+- Where are instructions, registrations or inspection records missing? `compliance`
 
-## Architecture
+## Your first hour: ten things to ask for
 
-```
-plant-maintenance-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
-```
+1. Put our business name and colours on the work packs.
+2. Preview our MEX asset-register export.
+3. Show the oldest urgent repairs.
+4. Find preventive work due by running hours.
+5. Record an actual equipment reading.
+6. Show what stores needs to reorder.
+7. Draft a work pack for the maintenance supervisor.
+8. Add our cost centre through a migration.
+9. Record our manufacturer's inspection interval and source.
+10. Add a Monday view for each site.
 
-## Built for coding agents
+## Documents and evidence
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+Edit brand.json once. npm run docs renders draft work packs, asset maintenance histories and internal parts requests under docs-out/. npm run view renders the week, reliability and inspection snapshots under views/. These are read-only HTML files, not an application. Protect them as internal business records.
 
-## Contributing
+[Compliance](docs/compliance.md) cites Australian and NZ plant guidance and explains four evidence checks. Site policies set dates; the base does not certify safety, issue permits or authorise work. Inspection defects put the plant on hold, with no automatic release.
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+[Move from MEX](docs/replace-mex.md): one command loads an asset CSV, with preview, explicit mapping, duplicate checks and preserved original columns. Work history, schedules, readings, parts and attachments need separate mapping. Review those records before ending the incumbent subscription.
 
-## Want it installed and run for you?
+[Why no front end](docs/why-no-front-end.md): mobile capture, offline operation, integrations and a site-specific approval experience belong in the custom version. No messages, supplier orders or payments are sent by this base.
 
-Enterprise DNA installs Plant Maintenance for Claude Code for your business, migrates your MEX data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+## Verification
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=mex)
-- Read more: [enterprisedna.co/omni/instead-of/mex](https://enterprisedna.co/omni/instead-of/mex?utm_source=github&utm_medium=readme&utm_campaign=mex)
+Tests use a temporary database and exercise every command, import rollback, duplicate generation, stock limits, inspection evidence, meter monotonicity, completion locks, export, escaped HTML and ambiguous CLI matches. Set TEST_DATABASE_URL only to an empty disposable Postgres database for the same suite. CI covers Windows, Linux and Postgres.
 
-## License
-
-MIT. Copyright (c) 2026 Enterprise DNA.
+Scaffold components come from Enterprise DNA's shared rebuild template. MIT licence. Not affiliated with MEX or Anthropic. Hosting and agent usage have separate costs. [Book 30 minutes with Sam](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=mex&utm_source=github&utm_medium=readme).

@@ -1,11 +1,52 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
+    "name": "work-pack",
+    "title": "Draft maintenance work pack",
+    "for_each": "select id,code from work_orders where status<>'completed'",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Job and isolation reference",
+        "sql": "select w.code,a.name,a.site,w.title,w.due_date,w.assigned_to,w.isolation_ref from work_orders w join assets a on a.id=w.asset_id where w.id=$1",
+        "note": "Planning record only. Site isolation, competency and permits must be checked by the responsible person before work."
+      },
+      {
+        "title": "Parts issued",
+        "sql": "select s.code,s.name,-m.quantity as issued from stock_moves m join spares s on s.id=m.spare_id where m.work_order_id=$1"
+      }
+    ]
+  },
+  {
+    "name": "asset-history",
+    "title": "Plant maintenance record",
+    "for_each": "select id,code from assets",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Asset and instructions",
+        "sql": "select code,name,site,status,registration_ref,instruction_ref from assets where id=$1"
+      },
+      {
+        "title": "Maintenance history",
+        "sql": "select code,title,status,completed_by,completion_note,completed_at,isolation_ref from work_orders where asset_id=$1 order by created_at"
+      },
+      {
+        "title": "Inspection evidence",
+        "sql": "select inspected_on,next_due,inspector,competency_ref,evidence_ref,result,finding from inspections where asset_id=$1 order by inspected_on"
+      }
+    ]
+  },
+  {
+    "name": "parts-request",
+    "title": "Draft parts purchase request",
+    "for_each": "select id,id::text as name from purchase_requests",
     "file": "name",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Requested parts",
+        "sql": "select s.code,s.name,p.quantity,p.reason,p.requested_by,p.status from purchase_requests p join spares s on s.id=p.spare_id where p.id=$1",
+        "note": "Internal draft. No supplier order has been placed."
+      }
     ]
   }
 ]

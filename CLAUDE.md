@@ -1,43 +1,15 @@
-# Plant Maintenance for Claude Code: operating instructions
+# Plant Maintenance for Claude Code
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+This is one maintenance team's database. Demo records describe fictional Northbank Packaging sites. Read docs/cli.md and the matching .claude/commands recipe before acting. All runtimes use this file through AGENTS.md.
 
-## Who this is for
+The weekly rituals are pm-due, attention, stores, inspection review and weekly-review. Every answer starts with current records. Use scripts/plant.mjs for changes and name the human operator with --actor. Never invent a meter reading, inspection, competency, isolation, registration or completed task. A record does not establish physical safety.
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
+Read docs/compliance.md for every rule. Intervals come from the manufacturer's instructions or a competent person's approved procedure. Demo intervals are fictional policy, never law. No command authorises work, energises plant, clears a hold, sends a message or orders goods. Completion needs actual completion and isolation evidence. Inspection defects put the asset on hold; a responsible person must approve a separately recorded release procedure before any return to service.
 
-Fill this in once. A worker with context knows. A worker without it guesses.
+Only seed demo databases. Real imports start with migrate in a fresh DATA_DIR, with no seed. Preserve source exports and review dry-run results and record counts before switching. Imported assets have unknown inspection and registration evidence until reviewed. Never infer registration applicability from an asset name.
 
-## How to work
+Drafts stay under drafts. Rendered HTML and exports are private records. Hosted operation needs access restrictions, backups, retention policy and a restore drill. Local PGlite permits one process at a time. Shared Postgres uses a restricted operator connection; public access is revoked. No customer secret belongs in this repo.
 
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
+Tailoring: back up first, write a new numbered migration, update CLI/import/docs/commands, migrate and npm test. Never edit an applied migration. Brand lives in brand.json; read-only snapshot definitions are views.json and documents.json.
 
-## Routing table: one right way for each recurring job
-
-| When the operator asks for... | Use this |
-|---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
-
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
-
-## Hard rules
-
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
-
-## Where things live
-
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off MEX.
-
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/mex
+Omni by Enterprise DNA builds and runs your version: https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=mex&utm_source=github
