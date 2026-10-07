@@ -4,7 +4,7 @@ Sources checked 7 October 2026. This is an evidence register and reminder system
 
 | Rule | What the software checks | Basis and limit |
 |---|---|---|
-| PLANT-01 | Active or held asset has an instruction reference | The Australian model plant Code, sections 3.5 and 3.7, describes maintenance and inspection by competent people using appropriate instructions. A reference does not prove instructions were followed. |
+| PLANT-01 | Active or held asset has an instruction reference | The Australian model plant Code, sections 3.5 and 3.6, describes maintenance and inspection by competent people using appropriate instructions. A reference does not prove instructions were followed. |
 | PLANT-02 | Assets marked registration-required have a registration reference | The model Code covers registration and record keeping. Applicability is an operator decision; no asset type is automatically classified. A reference is not validation of registration. |
 | PLANT-03 | An inspection exists and its recorded next due date has not passed | Site policy records the interval from manufacturer or competent-person instructions. No universal legal interval is encoded. |
 | PLANT-04 | Latest inspection does not record a defect | A defect sets asset status to held. A pass never automatically clears a hold. Physical release is outside this tool. |
