@@ -13,7 +13,7 @@ try{
  await migrate(db);assert.equal((await migrate(db)).ran.length,0);await seed(db);await seed(db);
  assert.equal((await invoke('assets')).length,3);assert.equal((await invoke('help')).length,commands.length);
  for(const c of Object.keys(reads))assert.ok(Array.isArray(await invoke(c)),c);
- assert.equal((await invoke('pm-due')).length,2);assert.ok((await invoke('pm-due')).some(r=>r.meter_due));
+ assert.equal((await invoke('pm-due')).length,2);assert.equal((await invoke('pm-due')).find(r=>r.asset==='CV-01').reading,null);assert.ok((await invoke('pm-due')).some(r=>r.meter_due));
  assert.equal((await invoke('attention')).length,2);assert.equal((await invoke('stores')).length,1);assert.equal((await invoke('stale-work')).length,1);
  assert.ok((await invoke('compliance')).some(r=>r.rule==='PLANT-02'));assert.equal((await invoke('weekly-review')).maintenance.length,2);
  assert.equal((await invoke('asset',['packing conveyor'])).asset.code,'CV-01');
@@ -41,7 +41,7 @@ try{
  assert.equal(Number((await invoke('reliability')).find(r=>r.code==='TEST-A').downtime_minutes),45);
  await invoke('meter',['AC-01'],{...actor,reading:1600});await assert.rejects(()=>invoke('meter',['AC-01'],{...actor,reading:1599}),/backwards/);
  const pm=await invoke('generate-pm',[],actor);assert.equal(pm.length,3);assert.equal((await invoke('generate-pm',[],actor)).length,0);
- const compressor=pm.find(r=>r.asset_id==='10000000-0000-4000-8000-000000000002');await invoke('complete',[compressor.code],{...actor,note:'Service complete',isolation:'LOTO-2'});
+ assert.ok(pm.every(w=>w.due_date<=today),'Meter-triggered work is due now');const compressor=pm.find(r=>r.asset_id==='10000000-0000-4000-8000-000000000002');await invoke('complete',[compressor.code],{...actor,note:'Service complete',isolation:'LOTO-2'});
  const [s]=await db.query('select next_meter,next_due from schedules where id=$1',[compressor.schedule_id]);assert.equal(Number(s.next_meter),2100);assert.ok(s.next_due>today);
  await invoke('inspect',['TEST-A'],{...actor,on:today,due:future,competency:'Training-1',evidence:'record.pdf',result:'defect',finding:'Guard missing'});
  assert.equal((await invoke('asset',['TEST-A'])).asset.status,'held');assert.ok((await invoke('compliance')).some(r=>r.asset==='TEST-A'&&r.rule==='PLANT-04'));
